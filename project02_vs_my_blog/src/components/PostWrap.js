@@ -46,11 +46,11 @@ const PostWrapStyled = styled.div`
   background-color: ${({ selected }) => (selected ? "#BABDD650" : "none")};
 
   &:not(.selected):hover {
-    background-color: #8ca7fc90;
+    background-color: #8ca7fc60;
   }
 
   &.selected {
-    background-color: #afb1eb70;
+    background-color: #8ca7fc90;
   }
 
   &:hover > svg {

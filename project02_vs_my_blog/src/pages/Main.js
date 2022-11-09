@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import styled from "styled-components";
+import styled, { useTheme } from "styled-components";
 import { HiOutlineDocumentDuplicate } from "react-icons/hi";
 import { HiOutlineSearch } from "react-icons/hi";
 import Accordion from "../components/Accordion";
@@ -11,8 +11,18 @@ import PostWrap from "../components/PostWrap";
 
 function Main() {
   const [selected, setSelected] = useState(0);
-  const { setOpenPost, setSelectedPost, selectedPost, postData, openPost } =
-    useContext(AppContext);
+  const {
+    theme,
+    setTheme,
+    setOpenPost,
+    setSelectedPost,
+    selectedPost,
+    postData,
+    openPost,
+  } = useContext(AppContext);
+
+  const themeeee = useTheme();
+  console.log(themeeee);
 
   const listArr = [
     {
@@ -51,17 +61,28 @@ function Main() {
   return (
     <Wrap>
       <LeftBar>
-        {listArr.map((one, index) => (
-          <IconWrap
-            selected={selected === index}
+        <div>
+          {listArr.map((one, index) => (
+            <IconWrap
+              selected={selected === index}
+              onClick={() => {
+                setSelected(selected === index ? null : index);
+              }}
+              key={index}
+            >
+              {one.icon}
+            </IconWrap>
+          ))}
+        </div>
+
+        <div>
+          <div
+            className={theme}
             onClick={() => {
-              setSelected(selected === index ? null : index);
+              setTheme(theme === "dark" ? "light" : "dark");
             }}
-            key={index}
-          >
-            {one.icon}
-          </IconWrap>
-        ))}
+          ></div>
+        </div>
       </LeftBar>
       {selected !== null && listArr[selected] && (
         <LeftContent>
@@ -105,7 +126,26 @@ function Main() {
           {/* {JSON.stringify(openPost)} */}
         </RightHeader>
 
-        <RightContent selected={selected}>{selectedPost}</RightContent>
+        <RightContent selected={selected}>
+          {(() => {
+            const data = getPostOne(postData, selectedPost);
+            return (
+              <>
+                <p>{data.path}</p>
+                <div>
+                  <h1>{data.title}</h1>
+                  <p>YunJin | {data?.data?.date}</p>
+                  <div>
+                    {data?.data?.tag.map((one, index) => (
+                      <span key={index}>{one}</span>
+                    ))}
+                  </div>
+                  <div>{data?.data?.content}</div>
+                </div>
+              </>
+            );
+          })()}
+        </RightContent>
       </RightWrap>
     </Wrap>
   );
@@ -123,17 +163,52 @@ const IconWrap = styled.div`
   padding: 10px 0 10px ${({ selected }) => (selected ? 0 : 3)}px;
   cursor: pointer;
   border-left: ${({ theme, selected }) =>
-    `${selected ? 3 : 0}px solid ${theme.color.text2}`};
+    `${selected ? 3 : 0}px solid ${theme.color.textSelected}`};
 
   > svg {
-    color: ${({ selected }) => (selected ? "#B4CDFF" : "#9AA4BD")};
+    color: ${({ theme, selected }) =>
+      theme.color[selected ? "textSelected" : "iconNoSelected"]};
   }
 `;
 
 const LeftBar = styled.div`
   width: 50px;
+  min-width: 50px;
   height: 100%;
-  background-color: #6f7f9e;
+  background-color: ${({ theme }) => theme.color.leftBarBg};
+
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+
+  > div:last-child {
+    padding-bottom: 70px;
+
+    > div {
+      height: 50px;
+      width: 27px;
+      border: 1px solid ${({ theme }) => theme.color.text};
+      border-radius: 50px;
+      position: relative;
+
+      &::after {
+        content: "";
+        position: absolute;
+        top: 2px;
+        left: 2px;
+
+        width: 20px;
+        height: 20px;
+        border-radius: 20px;
+        background-color: ${({ theme }) => theme.color.text};
+        transition: 0.3s;
+      }
+      &.light::after {
+        top: 24px;
+        background-color: ${({ theme }) => theme.color.text};
+      }
+    }
+  }
 `;
 
 const LeftContent = styled.div`
@@ -141,12 +216,14 @@ const LeftContent = styled.div`
   min-width: 320px;
   height: 100%;
   /* background-color: #515c73; */
-  background: linear-gradient(#515c73, #666c91);
+  background: linear-gradient(
+    ${({ theme }) => theme.color.leftContentBg1},
+    ${({ theme }) => theme.color.leftContentBg2}
+  );
   padding: 10px;
 
   > p {
     padding-bottom: 10px;
-    color: #caddff;
   }
 
   @media (max-width: 850px) {
@@ -198,7 +275,7 @@ const RightHeader = styled.div`
 
     &.selected {
       background-color: #8a91a8;
-      color: #b9dbff;
+      color: ${({ theme }) => theme.color.textSelected};
     }
 
     > svg {
@@ -214,9 +291,43 @@ const RightHeader = styled.div`
 `;
 
 const RightContent = styled.div`
-  background-color: ${({ theme }) => theme.color.primary};
+  background-color: ${({ theme }) => theme.color.rightContentBg};
   width: 100%;
   height: calc(100% - 50px);
+  padding: 10px 20px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  > p {
+    width: 100%;
+    color: white;
+  }
+
+  > div {
+    width: 100%;
+    max-width: 600px;
+    > h1 {
+      padding: 10px 0 20px 0;
+    }
+    > p {
+      padding-bottom: 10px;
+      color: white;
+      padding-bottom: 30px;
+      border-bottom: 2px solid ${({ theme }) => theme.color.subText};
+    }
+
+    > div:nth-child(3) {
+      padding: 30px 0 20px 0;
+      > span {
+        padding: 5px 10px;
+        margin-right: 10px;
+        border-radius: 10px;
+        background-color: ${({ theme }) => theme.color.leftContentBg1};
+      }
+    }
+  }
 `;
 
 export default Main;
