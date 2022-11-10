@@ -139,9 +139,9 @@ function Main() {
                   <p>{data.path}</p>
                   <div>
                     <h1>{data.title}</h1>
-                    <p>YunJin | {data?.data?.date}</p>
+                    <p>YunJin | {data.data?.date}</p>
                     <div>
-                      {data?.data?.tag.map((one, index) => (
+                      {data.data?.tag?.map((one, index) => (
                         <span key={index}>{one}</span>
                       ))}
                     </div>

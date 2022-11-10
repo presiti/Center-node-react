@@ -8,6 +8,7 @@ import {
 import Main from "./pages/Main";
 import ThemeContext from "./context/AppContext";
 import { ThemeProvider } from "styled-components";
+import axios from "axios";
 import { darkTheme, lightTheme } from "./style/theme";
 import { GlobalStyle } from "./style/GlobalStyle";
 
@@ -27,49 +28,15 @@ function App() {
   const [theme, setTheme] = useState("dark");
 
   useEffect(() => {
-    setPostData([
-      {
-        type: "directory",
-        title: "일상",
-      },
-      {
-        type: "directory",
-        title: "Tech",
-        children: [
-          {
-            type: "post",
-            title: "Tech1",
-            path: "/Tech/Tech1",
-            data: {
-              date: "2022.11.09",
-              tag: ["기술", "리뷰"],
-              content: "slfjsflksjflksjflsjfl",
-            },
-          },
-          {
-            type: "post",
-            title: "Tech2",
-            path: "/Tech/Tech2",
-          },
-          {
-            type: "directory",
-            title: "Tech3",
-            children: [
-              {
-                type: "post",
-                title: "Tech31",
-                path: "/Tech/Tech3/Tech31",
-              },
-              {
-                type: "post",
-                title: "Tech32",
-                path: "/Tech/Tech3/Tech32",
-              },
-            ],
-          },
-        ],
-      },
-    ]);
+    async function fetch() {
+      const { data: resPostData } = await axios.get(
+        "http://localhost:4000/post/all"
+      );
+
+      setPostData(resPostData);
+    }
+
+    fetch();
   }, []);
 
   return (
