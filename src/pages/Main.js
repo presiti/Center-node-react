@@ -8,6 +8,8 @@ import AppContext from "../context/AppContext";
 import { CgClose } from "react-icons/cg";
 import { getPostOne } from "../common/common.function";
 import PostWrap from "../components/PostWrap";
+import remarkGfm from "remark-gfm";
+import ReactMarkdown from "react-markdown";
 
 function Main() {
   const [selected, setSelected] = useState(0);
@@ -145,7 +147,12 @@ function Main() {
                         <span key={index}>{one}</span>
                       ))}
                     </div>
-                    <div>{data?.data?.content}</div>
+                    <div>
+                      <ReactMarkdown
+                        children={data?.data?.content}
+                        remarkPlugins={{ remarkGfm }}
+                      />
+                    </div>
                   </div>
                 </>
               )
@@ -196,6 +203,7 @@ const LeftBar = styled.div`
       border: 1px solid ${({ theme }) => theme.color.text};
       border-radius: 50px;
       position: relative;
+      margin-left: 12px;
 
       &::after {
         content: "";
