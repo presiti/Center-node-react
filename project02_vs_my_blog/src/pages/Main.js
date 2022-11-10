@@ -92,7 +92,7 @@ function Main() {
       )}
 
       <RightWrap selected={selected}>
-        <RightHeader>
+        <RightHeader visible={openPost.length !== 0 ? true : false}>
           {openPost.map((one, index) => {
             const data = getPostOne(postData, one);
 
@@ -126,23 +126,29 @@ function Main() {
           {/* {JSON.stringify(openPost)} */}
         </RightHeader>
 
-        <RightContent selected={selected}>
+        <RightContent
+          selected={selected}
+          visible={openPost.length !== 0 ? true : false}
+        >
           {(() => {
             const data = getPostOne(postData, selectedPost);
+
             return (
-              <>
-                <p>{data.path}</p>
-                <div>
-                  <h1>{data.title}</h1>
-                  <p>YunJin | {data?.data?.date}</p>
+              data && (
+                <>
+                  <p>{data.path}</p>
                   <div>
-                    {data?.data?.tag.map((one, index) => (
-                      <span key={index}>{one}</span>
-                    ))}
+                    <h1>{data.title}</h1>
+                    <p>YunJin | {data?.data?.date}</p>
+                    <div>
+                      {data?.data?.tag.map((one, index) => (
+                        <span key={index}>{one}</span>
+                      ))}
+                    </div>
+                    <div>{data?.data?.content}</div>
                   </div>
-                  <div>{data?.data?.content}</div>
-                </div>
-              </>
+                </>
+              )
             );
           })()}
         </RightContent>
@@ -243,7 +249,7 @@ const RightWrap = styled.div`
 const RightHeader = styled.div`
   width: 100%;
   height: 50px;
-  display: flex;
+  display: ${({ visible }) => (visible ? "flex" : "none")};
   overflow-x: scroll;
   background-color: #606880;
 
@@ -293,7 +299,7 @@ const RightHeader = styled.div`
 const RightContent = styled.div`
   background-color: ${({ theme }) => theme.color.rightContentBg};
   width: 100%;
-  height: calc(100% - 50px);
+  height: ${({ visible }) => (visible ? "calc(100% - 50px)" : "100%")};
   padding: 10px 20px;
 
   display: flex;
