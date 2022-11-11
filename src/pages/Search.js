@@ -23,11 +23,34 @@ function Search() {
 
     SearchTagFunc(postData);
 
-    function SearchTagFunc(nowPostData) {
-      console.log(nowPostData);
+    // 태그 데이터 뽑은 함수
+    function SearchTagFunc(nowPostDataArr) {
+      nowPostDataArr.map((nowPostData) => {
+        if (nowPostData.type === "post") {
+          // 게시물일 경우 처리
+          nowPostData.data.tag?.map((tag) => {
+            // 임시 데이터에 태그가 존재하는지 검사
+            // const existTag =(TagArr.some((temp) => one.tag.includes(temp)))  //.some() 하나라도 true면 true 반환
+            const tempTarget = TagArr.find((temp) => tag === temp.tagTitle);
+
+            if (tempTarget) {
+              tempTarget.count += 1;
+            } else {
+              TagArr.push({
+                tagTitle: tag,
+                count: 1,
+                postArr: [],
+              });
+            }
+          });
+        } else {
+          // 디렉토리일 경우 처리
+          nowPostData.children && SearchTagFunc(nowPostData.children);
+        }
+      });
     }
 
-    setTagData([]);
+    setTagData(TagArr);
   }, []);
 
   return (

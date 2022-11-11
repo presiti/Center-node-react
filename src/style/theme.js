@@ -40,6 +40,6 @@ export const lightTheme = {
 
     text: "#5a6a93",
     textSelected: "#445669",
-    subText: "#68fff8",
+    subText: "",
   },
 };
