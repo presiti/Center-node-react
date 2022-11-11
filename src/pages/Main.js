@@ -2,14 +2,19 @@ import React, { useContext, useState } from "react";
 import styled, { useTheme } from "styled-components";
 import { HiOutlineDocumentDuplicate } from "react-icons/hi";
 import { HiOutlineSearch } from "react-icons/hi";
+import { CgClose } from "react-icons/cg";
+import remarkGfm from "remark-gfm";
+import ReactMarkdown from "react-markdown";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { xcode } from "react-syntax-highlighter/dist/esm/styles/hljs";
+import { nightOwl } from "react-syntax-highlighter/dist/esm/styles/prism";
+
 import Accordion from "../components/Accordion";
 import Content from "../components/Content";
 import AppContext from "../context/AppContext";
-import { CgClose } from "react-icons/cg";
 import { getPostOne } from "../common/common.function";
 import PostWrap from "../components/PostWrap";
-import remarkGfm from "remark-gfm";
-import ReactMarkdown from "react-markdown";
+import Search from "./Search";
 
 function Main() {
   const [selected, setSelected] = useState(0);
@@ -56,7 +61,7 @@ function Main() {
     {
       icon: <HiOutlineSearch size={22} />,
       path: "search",
-      content: <p>101011101</p>,
+      content: <Search />,
     },
   ];
 
@@ -151,6 +156,32 @@ function Main() {
                       <ReactMarkdown
                         children={data?.data?.content}
                         remarkPlugins={{ remarkGfm }}
+                        components={{
+                          code({
+                            node,
+                            inline,
+                            className,
+                            children,
+                            ...props
+                          }) {
+                            const match = /language-(\w+)/.exec(
+                              className || ""
+                            );
+                            return !inline && match ? (
+                              <SyntaxHighlighter
+                                children={String(children).replace(/\n$/, "")}
+                                style={theme === "dark" ? nightOwl : xcode}
+                                language={match[1]}
+                                PreTag="div"
+                                {...props}
+                              />
+                            ) : (
+                              <code className={className} {...props}>
+                                {children}
+                              </code>
+                            );
+                          },
+                        }}
                       />
                     </div>
                   </div>
@@ -199,17 +230,17 @@ const LeftBar = styled.div`
 
     > div {
       height: 50px;
-      width: 27px;
+      width: 28px;
       border: 1px solid ${({ theme }) => theme.color.text};
       border-radius: 50px;
       position: relative;
-      margin-left: 12px;
+      margin-left: 10px;
 
       &::after {
         content: "";
         position: absolute;
         top: 2px;
-        left: 2px;
+        left: 3px;
 
         width: 20px;
         height: 20px;
@@ -313,6 +344,7 @@ const RightContent = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow-y: scroll;
 
   > p {
     width: 100%;
@@ -339,6 +371,13 @@ const RightContent = styled.div`
         margin-right: 10px;
         border-radius: 10px;
         background-color: ${({ theme }) => theme.color.leftContentBg1};
+      }
+    }
+
+    > div:last-child.markdown {
+      h1 {
+        color: yellow;
+        padding: 10px 0 30px 0;
       }
     }
   }

@@ -9,7 +9,7 @@ export const GlobalStyle = createGlobalStyle`
 }
 
 *:not(svg, path) {
-  color: #caddff;
+  color: ${({ theme }) => theme.color.text};
 }
 
 *::-webkit-scrollbar {
@@ -19,14 +19,15 @@ export const GlobalStyle = createGlobalStyle`
 
 *::-webkit-scrollbar-thumb {
   height: 10%; /* 스크롤바의 길이 */
+  width: 10px;
   background: #899cc2; /* 스크롤바의 색상 */
 
   border-radius: 10px;
 }
 
 *::-webkit-scrollbar-track {
-  background: /*${({ theme }) =>
-    theme.color.ahahahah}*/#727b96; /*스크롤바 뒷 배경 색상*/
+  background: ${({ theme }) =>
+    theme.color.rightContentBg}; /*스크롤바 뒷 배경 색상*/
 }
 
 `;
