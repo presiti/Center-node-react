@@ -15,4 +15,8 @@ export default React.createContext({
   // 테마 관련
   theme: [],
   setTheme: () => [],
+
+  // 현재 선택된 태그
+  selectTag: "",
+  setSelectedTag: () => {},
 });

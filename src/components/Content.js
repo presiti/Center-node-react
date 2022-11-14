@@ -34,16 +34,13 @@ function Content({ type, title, children, path }) {
 const PostWrap = styled.div`
   padding: 5px 0;
   cursor: pointer;
-  /* background-color: ${({ selected }) =>
-    selected ? "#BABDD650" : "none"}; */
 
   &:not(.selected):hover {
-    background-color: #8098e5;
-    color: #555c71;
+    background-color: ${({ theme }) => theme.color.leftConHover};
   }
 
   &.selected {
-    background-color: #afb1eb70;
+    background-color: ${({ theme }) => theme.color.leftConSelect};
   }
 `;
 

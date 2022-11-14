@@ -5,19 +5,18 @@ export const darkTheme = {
 
     leftContentBg1: "#515c73",
     leftContentBg2: "#535b8f",
-    leftConHover: "",
-    leftConSelect: "",
+    leftConHover: "#8E9BD4",
+    leftConSelect: "#7285C2",
 
     rightHeaderBg: "",
     rightHeadHover: "",
     rightHeadSelect: "",
 
-    rightContentBg: "#727b96",
-    rightConSuvText: "",
+    rightContentBg: "#434c66",
 
     text: "#caddff",
     textSelected: "#b4cdff",
-    subText: "#E2E8FF",
+    subText: "#c1caeb",
   },
 };
 
@@ -28,18 +27,18 @@ export const lightTheme = {
 
     leftContentBg1: "#B6C6E5",
     leftContentBg2: "#9ea5d5",
-    leftConHover: "",
-    leftConSelect: "",
+    leftConHover: "#8DA5FC",
+    leftConSelect: "#9CB1F0",
 
     rightHeaderBg: "",
     rightHeadHover: "",
     rightHeadSelect: "",
 
-    rightContentBg: "#767B94",
+    rightContentBg: "#c0cbed",
     rightConSuvText: "",
 
     text: "#5a6a93",
     textSelected: "#445669",
-    subText: "",
+    subText: "#3d4b70",
   },
 };

@@ -23,6 +23,7 @@ const router = createBrowserRouter(
 
 function App() {
   const [selectedPost, setSelectedPost] = useState("");
+  const [selectedTag, setSelectedTag] = useState(null);
   const [postData, setPostData] = useState([]);
   const [openPost, setOpenPost] = useState([]);
   const [theme, setTheme] = useState("dark");
@@ -45,6 +46,9 @@ function App() {
         // 첫 중괄호 : js를 쓰기 위한 중괄호, 두번째 중괄호 : 그냥 오브젝트를 의한 중괄호
         selectedPost,
         setSelectedPost,
+
+        selectedTag,
+        setSelectedTag,
 
         openPost,
         setOpenPost,

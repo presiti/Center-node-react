@@ -26,6 +26,8 @@ function Main() {
     selectedPost,
     postData,
     openPost,
+    selectedTag,
+    setSelectedTag,
   } = useContext(AppContext);
 
   const themeeee = useTheme();
@@ -65,6 +67,8 @@ function Main() {
     },
   ];
 
+  const data = getPostOne(postData, selectedPost);
+
   return (
     <Wrap>
       <LeftBar>
@@ -99,97 +103,98 @@ function Main() {
       )}
 
       <RightWrap selected={selected}>
-        <RightHeader visible={openPost.length !== 0 ? true : false}>
-          {openPost.map((one, index) => {
-            const data = getPostOne(postData, one);
+        {selectedTag ? (
+          <RightTagContent Content>
+            <h2>
+              {selectedTag.tagTitle} 관련 글 목록
+              <span>({selectedTag.path.length} 개)</span>
+            </h2>
+            <div>
+              {selectedTag.path.map((path) => {
+                const tagData = getPostOne(postData, path);
+                return <div>{tagData.title}</div>;
+              })}
+            </div>
+          </RightTagContent>
+        ) : (
+          <>
+            <RightHeader visible={openPost.length !== 0 ? true : false}>
+              {openPost.map((one, index) => {
+                const data = getPostOne(postData, one);
 
-            return (
-              <div
-                className={selectedPost === one ? "selected" : ""}
-                onClick={() => {
-                  setSelectedPost(data.path);
-                }}
-                key={index}
-              >
-                📝{data.title}
-                <CgClose
-                  onClick={(e) => {
-                    e.stopPropagation(); //프론트에서 자주 씀. 이벤트 전파를 막음
+                return (
+                  <div
+                    className={selectedPost === one ? "selected" : ""}
+                    onClick={() => {
+                      setSelectedPost(data.path);
+                    }}
+                    key={index}
+                  >
+                    📝{data.title}
+                    <CgClose
+                      onClick={(e) => {
+                        e.stopPropagation(); //프론트에서 자주 씀. 이벤트 전파를 막음
 
-                    const openPostFilter = openPost.filter(
-                      (one) => one !== data.path
-                    );
+                        const openPostFilter = openPost.filter(
+                          (one) => one !== data.path
+                        );
 
-                    setOpenPost(openPostFilter);
+                        setOpenPost(openPostFilter);
 
-                    setSelectedPost(
-                      openPostFilter.length !== 0 ? openPostFilter[0] : null
-                    );
-                  }}
-                />
-              </div>
-            );
-          })}
-          {/* {JSON.stringify(openPost)} */}
-        </RightHeader>
-
-        <RightContent
-          selected={selected}
-          visible={openPost.length !== 0 ? true : false}
-        >
-          {(() => {
-            const data = getPostOne(postData, selectedPost);
-
-            return (
-              data && (
-                <>
-                  <p>{data.path}</p>
-                  <div>
-                    <h1>{data.title}</h1>
-                    <p>YunJin | {data.data?.date}</p>
-                    <div>
-                      {data.data?.tag?.map((one, index) => (
-                        <span key={index}>{one}</span>
-                      ))}
-                    </div>
-                    <div>
-                      <ReactMarkdown
-                        children={data?.data?.content}
-                        remarkPlugins={{ remarkGfm }}
-                        components={{
-                          code({
-                            node,
-                            inline,
-                            className,
-                            children,
-                            ...props
-                          }) {
-                            const match = /language-(\w+)/.exec(
-                              className || ""
-                            );
-                            return !inline && match ? (
-                              <SyntaxHighlighter
-                                children={String(children).replace(/\n$/, "")}
-                                style={theme === "dark" ? nightOwl : xcode}
-                                language={match[1]}
-                                PreTag="div"
-                                {...props}
-                              />
-                            ) : (
-                              <code className={className} {...props}>
-                                {children}
-                              </code>
-                            );
-                          },
-                        }}
-                      />
-                    </div>
+                        setSelectedPost(
+                          openPostFilter.length !== 0 ? openPostFilter[0] : null
+                        );
+                      }}
+                    />
                   </div>
-                </>
-              )
-            );
-          })()}
-        </RightContent>
+                );
+              })}
+              {/* {JSON.stringify(openPost)} */}
+            </RightHeader>
+
+            <RightContent
+              selected={selected}
+              visible={openPost.length !== 0 ? true : false}
+            >
+              <>
+                <p>{data.path}</p>
+                <div>
+                  <h1>{data.title}</h1>
+                  <p>YunJin | {data.data?.date}</p>
+                  <div>
+                    {data.data?.tag?.map((one, index) => (
+                      <span key={index}>{one}</span>
+                    ))}
+                  </div>
+                  <div>
+                    <ReactMarkdown
+                      children={data?.data?.content}
+                      remarkPlugins={{ remarkGfm }}
+                      components={{
+                        code({ node, inline, className, children, ...props }) {
+                          const match = /language-(\w+)/.exec(className || "");
+                          return !inline && match ? (
+                            <SyntaxHighlighter
+                              children={String(children).replace(/\n$/, "")}
+                              style={theme === "dark" ? nightOwl : xcode}
+                              language={match[1]}
+                              PreTag="div"
+                              {...props}
+                            />
+                          ) : (
+                            <code className={className} {...props}>
+                              {children}
+                            </code>
+                          );
+                        },
+                      }}
+                    />
+                  </div>
+                </div>
+              </>
+            </RightContent>
+          </>
+        )}
       </RightWrap>
     </Wrap>
   );
@@ -232,6 +237,8 @@ const LeftBar = styled.div`
       height: 50px;
       width: 28px;
       border: 1px solid ${({ theme }) => theme.color.text};
+      background-color: ${({ theme }) => theme.color.leftContentBg1};
+
       border-radius: 50px;
       position: relative;
       margin-left: 10px;
@@ -335,6 +342,19 @@ const RightHeader = styled.div`
   }
 `;
 
+const RightTagContent = styled.div`
+  background-color: ${({ theme }) => theme.color.rightContentBg};
+  width: 100%;
+  height: ${({ visible }) => (visible ? "calc(100% - 50px)" : "100%")};
+  padding: 10px 20px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  overflow-y: scroll;
+`;
+
 const RightContent = styled.div`
   background-color: ${({ theme }) => theme.color.rightContentBg};
   width: 100%;
@@ -344,12 +364,8 @@ const RightContent = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  overflow-y: scroll;
 
-  > p {
-    width: 100%;
-    color: white;
-  }
+  overflow-y: scroll;
 
   > div {
     width: 100%;
@@ -359,7 +375,7 @@ const RightContent = styled.div`
     }
     > p {
       padding-bottom: 10px;
-      color: white;
+      color: ${({ theme }) => theme.color.subText};
       padding-bottom: 30px;
       border-bottom: 2px solid ${({ theme }) => theme.color.subText};
     }
