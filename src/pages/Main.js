@@ -125,7 +125,11 @@ function Main() {
                       }}
                     >
                       <div>
-                        <div></div>
+                        <div>
+                          {tagData.data.thumbnail && (
+                            <img src={tagData.data.thumbnail} alt="" />
+                          )}
+                        </div>
                         <h3>{tagData.title}</h3>
                       </div>
                       <div>
@@ -320,7 +324,7 @@ const RightHeader = styled.div`
   height: 50px;
   display: ${({ visible }) => (visible ? "flex" : "none")};
   overflow-x: scroll;
-  background-color: #606880;
+  background-color: ${({ theme }) => theme.color.rightHeaderBg};
 
   ::-webkit-scrollbar-thumb {
     display: none;
@@ -341,7 +345,7 @@ const RightHeader = styled.div`
     }
 
     &:hover {
-      background-color: #7b819c;
+      background-color: ${({ theme }) => theme.color.rightHeadHover};
     }
 
     &:hover > svg {
@@ -349,7 +353,7 @@ const RightHeader = styled.div`
     }
 
     &.selected {
-      background-color: #8a91a8;
+      background-color: ${({ theme }) => theme.color.rightHeadSelect};
       color: ${({ theme }) => theme.color.textSelected};
     }
 
@@ -359,7 +363,7 @@ const RightHeader = styled.div`
       top: 12.5px;
       border-radius: 3px;
       &:hover {
-        background-color: #b9dbff40;
+        background-color: ${({ theme }) => theme.color.ConCloseHover};
       }
     }
   }
@@ -410,6 +414,12 @@ const RightTagContent = styled.div`
             height: 50px;
             background-color: ${({ theme }) => theme.color.leftContentBg1};
             border-radius: 5px;
+            overflow: hidden;
+            > img {
+              width: 100%;
+              height: 100%;
+              object-fit: cover;
+            }
           }
           > h3 {
             padding-left: 10px;

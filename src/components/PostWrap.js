@@ -49,14 +49,12 @@ const PostWrapStyled = styled.div`
   position: relative;
   cursor: pointer;
 
-  background-color: ${({ selected }) => (selected ? "#BABDD650" : "none")};
-
   &:not(.selected):hover {
-    background-color: #8ca7fc60;
+    background-color: ${({ theme }) => theme.color.leftConHover};
   }
 
   &.selected {
-    background-color: #8ca7fc90;
+    background-color: ${({ theme }) => theme.color.leftConSelect};
   }
 
   &:hover > svg {
@@ -76,7 +74,7 @@ const PostWrapStyled = styled.div`
       display: block;
     }
     &:hover {
-      background-color: ${({ theme }) => theme.color.leftConCloseHover};
+      background-color: ${({ theme }) => theme.color.ConCloseHover};
     }
   }
 `;

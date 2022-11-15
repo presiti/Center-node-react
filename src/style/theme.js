@@ -7,13 +7,14 @@ export const darkTheme = {
     leftContentBg2: "#535b8f",
     leftConHover: "#8E9BD4",
     leftConSelect: "#7285C2",
-    leftConCloseHover: "#b9dbff60",
 
-    rightHeaderBg: "",
-    rightHeadHover: "",
-    rightHeadSelect: "",
+    rightHeaderBg: "#606880",
+    rightHeadHover: "#7b819c",
+    rightHeadSelect: "#8a91a8",
 
     rightContentBg: "#434c66",
+
+    ConCloseHover: "#b9dbff60",
 
     text: "#caddff",
     textSelected: "#b4cdff",
@@ -30,15 +31,15 @@ export const lightTheme = {
     leftContentBg1: "#B6C6E5",
     leftContentBg2: "#9ea5d5",
     leftConHover: "#8DA5FC",
-    leftConSelect: "#9CB1F0",
-    leftConCloseHover: "#535b8f40",
+    leftConSelect: "#8ca7fc80",
 
-    rightHeaderBg: "",
-    rightHeadHover: "",
-    rightHeadSelect: "",
+    rightHeaderBg: "#96A0CC",
+    rightHeadHover: "#A4AEDE",
+    rightHeadSelect: "#B8C4F2",
 
     rightContentBg: "#c0cbed",
-    rightConSuvText: "",
+
+    ConCloseHover: "#C1CFFF90",
 
     text: "#5a6a93",
     textSelected: "#445669",
