@@ -27,7 +27,6 @@ function Main() {
     postData,
     openPost,
     selectedTag,
-    setSelectedTag,
   } = useContext(AppContext);
 
   const themeeee = useTheme();
@@ -104,16 +103,40 @@ function Main() {
 
       <RightWrap selected={selected}>
         {selectedTag ? (
-          <RightTagContent Content>
-            <h2>
-              {selectedTag.tagTitle} 관련 글 목록
-              <span>({selectedTag.path.length} 개)</span>
-            </h2>
+          <RightTagContent>
             <div>
-              {selectedTag.path.map((path) => {
-                const tagData = getPostOne(postData, path);
-                return <div>{tagData.title}</div>;
-              })}
+              <h2>
+                {selectedTag.tagTitle} 관련 글 목록
+                <span>({selectedTag.path.length} 개)</span>
+              </h2>
+              <div>
+                {selectedTag.path.map((path) => {
+                  const tagData = getPostOne(postData, path);
+                  return (
+                    <div
+                      className="post"
+                      onClick={() => {
+                        selectedTag(tagData.path);
+                        setSelectedPost(null);
+
+                        if (!openPost.includes(path)) {
+                          setOpenPost([...openPost, path]);
+                        }
+                      }}
+                    >
+                      <div>
+                        <div></div>
+                        <h3>{tagData.title}</h3>
+                      </div>
+                      <div>
+                        {tagData.data.tag.map((one) => (
+                          <span>#{one}</span>
+                        ))}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           </RightTagContent>
         ) : (
@@ -353,6 +376,64 @@ const RightTagContent = styled.div`
   align-items: center;
 
   overflow-y: scroll;
+
+  > div {
+    width: 100%;
+    max-width: 700px;
+    > h2 {
+      border-bottom: 2px solid ${({ theme }) => theme.color.subText};
+      padding: 30px 0 10px 0;
+      > span {
+        font-size: 1.2rem;
+        color: ${({ theme }) => theme.color.spacialText};
+      }
+    }
+
+    > div {
+      > div.post {
+        padding: 5px 5px;
+        margin-top: 20px;
+        border-radius: 10px;
+        background-color: ${({ theme }) => theme.color.leftBarBg};
+        cursor: pointer;
+
+        &:hover {
+          background-color: ${({ theme }) => theme.color.text}90;
+          transform: scale(1.05);
+          transition: 0.2s;
+        }
+
+        > div:first-child {
+          display: flex;
+          > div {
+            width: 50px;
+            height: 50px;
+            background-color: ${({ theme }) => theme.color.leftContentBg1};
+            border-radius: 5px;
+          }
+          > h3 {
+            padding-left: 10px;
+          }
+        }
+        > div:last-child {
+          padding-top: 5px;
+          > span {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 10px;
+            margin-right: 10px;
+            color: ${({ theme }) => theme.color.spacialText};
+            background-color: ${({ theme }) => theme.color.rightContentBg};
+          }
+          span:hover {
+            text-decoration: underline;
+            cursor: pointer;
+            color: ${({ theme }) => theme.color.subText};
+          }
+        }
+      }
+    }
+  }
 `;
 
 const RightContent = styled.div`

@@ -4,11 +4,17 @@ import AppContext from "../context/AppContext";
 import { MdClose } from "react-icons/md";
 
 function PostWrap({ path, title, isClose }) {
-  const { selectedPost, setSelectedPost, openPost, setOpenPost } =
-    useContext(AppContext);
+  const {
+    selectedPost,
+    setSelectedPost,
+    openPost,
+    setOpenPost,
+    setSelectedTag,
+  } = useContext(AppContext);
 
   function selectedFunc() {
     setSelectedPost(path);
+    setSelectedTag(null);
     if (!openPost.includes(path)) {
       setOpenPost([...openPost, path]);
     }
@@ -70,7 +76,7 @@ const PostWrapStyled = styled.div`
       display: block;
     }
     &:hover {
-      background-color: #b9dbff60;
+      background-color: ${({ theme }) => theme.color.leftConCloseHover};
     }
   }
 `;

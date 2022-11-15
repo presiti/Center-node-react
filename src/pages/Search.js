@@ -98,7 +98,7 @@ const Tag = styled.div`
   }
 
   > span {
-    color: ${({ theme }) => theme.color.subText};
+    color: ${({ theme }) => theme.color.spacialText};
   }
 `;
 

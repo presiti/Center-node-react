@@ -7,6 +7,7 @@ export const darkTheme = {
     leftContentBg2: "#535b8f",
     leftConHover: "#8E9BD4",
     leftConSelect: "#7285C2",
+    leftConCloseHover: "#b9dbff60",
 
     rightHeaderBg: "",
     rightHeadHover: "",
@@ -17,6 +18,7 @@ export const darkTheme = {
     text: "#caddff",
     textSelected: "#b4cdff",
     subText: "#c1caeb",
+    spacialText: "#77c6ff",
   },
 };
 
@@ -29,6 +31,7 @@ export const lightTheme = {
     leftContentBg2: "#9ea5d5",
     leftConHover: "#8DA5FC",
     leftConSelect: "#9CB1F0",
+    leftConCloseHover: "#535b8f40",
 
     rightHeaderBg: "",
     rightHeadHover: "",
