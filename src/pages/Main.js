@@ -273,7 +273,7 @@ const LeftBar = styled.div`
       &::after {
         content: "";
         position: absolute;
-        top: 2px;
+        top: 4px;
         left: 3px;
 
         width: 20px;
