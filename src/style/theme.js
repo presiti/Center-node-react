@@ -28,7 +28,7 @@ export const lightTheme = {
     leftBarBg: "#dae7ff",
     iconNoSelected: "#b4cdff",
 
-    leftContentBg1: "#B6C6E5",
+    leftContentBg1: "#B6C6E5" /*a4bae5*/,
     leftContentBg2: "#9ea5d5",
     leftConHover: "#8DA5FC",
     leftConSelect: "#8ca7fc80",
@@ -41,7 +41,7 @@ export const lightTheme = {
 
     ConCloseHover: "#C1CFFF90",
 
-    text: "#5a6a93",
+    text: "#405078",
     textSelected: "#445669",
     subText: "#3d4b70",
   },
